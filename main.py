@@ -1,5 +1,15 @@
+from dotenv import load_dotenv
+import os
 import requests
-def recipe_search(ingredient):
+import spotipy
+
+load_dotenv()
+client_id = os.getenv("CLIENT_ID")
+client_secret = os.getenv("CLIENT_SECRET")
+
+print(client_id, client_secret)
+
+def song_search(ingredient):
 # Register to get an APP ID and key https://developer.edamam.com/
     app_id = ''
     app_key = ''
@@ -8,7 +18,7 @@ def recipe_search(ingredient):
     return data['hits']
 def run():
     ingredient = input('Enter an ingredient: ')
-    results = recipe_search(ingredient)
+    results = song_search(ingredient)
     for result in results:
         recipe = result['recipe']
         print(recipe['label'])

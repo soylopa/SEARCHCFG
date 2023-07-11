@@ -1,10 +1,7 @@
-from dotenv import load_dotenv
-import os
 import base64
 from requests import post, get
 import json
 
-load_dotenv()
 client_id = 'c1fb38329c7e43be8ad7d9887649a609'
 client_secret = 'c534942543d24b9c86a519209cf6efe3'
 
@@ -29,6 +26,3 @@ def get_token():
 
 token = get_token()
 print(token)
-
-
-

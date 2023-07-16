@@ -2,13 +2,12 @@ import base64
 from requests import post, get
 import json
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7d4e5da285d92943bd394cee0c5a2675248d154b
 client_id = 'c1fb38329c7e43be8ad7d9887649a609'
-client_secret = 'c534942543d24b9c86a519209cf6efe3'
+client_secret = 'c40e33e17f5f4332a3ab200a340980b9'
 
+search_artist= input('Tell me who: ')
+replace_string = search_artist.replace(' ', '%20')
+    
 def get_token():
     auth_string = str(client_id) + ":" + str(client_secret) #authorisation string+concatenation
     auth_bytes = auth_string.encode("utf-8")
@@ -27,8 +26,53 @@ def get_token():
     token = json_result["access_token"]
     return token
 token = get_token()
-<<<<<<< HEAD
-print(token)
-=======
-print(token)
->>>>>>> 7d4e5da285d92943bd394cee0c5a2675248d154b
+
+def get_auth_header(token):
+    return {"Authorization": "Bearer " + token}
+
+#Primera función 1.1
+
+def search_for_artist(token, artist_name):
+    url="https://api.spotify.com/v1/search"
+    headers=get_auth_header(token)
+    query= f"?q={artist_name}&type=artist&limit=1"
+    query_url= url + query
+    result = get(query_url, headers=headers)
+    data = json.loads(result.content)['artists']['items']
+    if len(data) == 0:
+        print('No artist found with this name...')
+        return None
+    #data_pretty = []
+    if len(data) > 0:
+        for artist in data:
+            print(artist['name'])
+            print("Artist ID: " + artist['id'] + ' click here to access: ' + artist['external_urls']['spotify'])
+            print("------")
+            #data_pretty.append(artist['name'])
+            #data_pretty.append( artist['id']) 
+            #data_pretty.append(artist['external_urls']['spotify'])        
+        return data[0]
+    #return data_pretty  there is no return for the function but it still works (the power of shiny unicorns!!)(or charlie o.O)
+
+artists_name = search_for_artist(token, artist_name=search_artist) #search_artist is the input in line 8
+artists_name_id =artists_name['id']
+print(artists_name_id)
+   #función 3: nueva función 1.2
+def top_tracks_by_artist(token, artist_id):
+    url = "https://api.spotify.com/v1/artists/"
+    query= f"{artist_id}/top-tracks?market=ES"
+    query_url= url + query
+    headers = get_auth_header(token)
+    result = get(query_url, headers=headers)
+    data = json.loads(result.content)['tracks']
+    if len(data) > 0:
+        for track in data:
+            print(track['name'])
+            print("------")
+        return data[0]
+    else:
+        print("We didn't find your track")
+    return data
+top_tracks_by_artist(token, artist_id=artists_name_id)
+   
+

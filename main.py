@@ -42,17 +42,12 @@ def search_for_artist(token, artist_name):
     if len(data) == 0:
         print('No artist found with this name...')
         return None
-    #data_pretty = []
     if len(data) > 0:
         for artist in data:
             print(artist['name'])
             print("Artist ID: " + artist['id'] + ' click here to access: ' + artist['external_urls']['spotify'])
-            print("------")
-            #data_pretty.append(artist['name'])
-            #data_pretty.append( artist['id']) 
-            #data_pretty.append(artist['external_urls']['spotify'])        
+            print("------")   
         return data[0]
-    #return data_pretty  there is no return for the function but it still works (the power of shiny unicorns!!)(or charlie o.O)
 
 artists_name = search_for_artist(token, artist_name=search_artist) #search_artist is the input in line 8
 artists_name_id =artists_name['id']
